@@ -7,30 +7,26 @@
 
 import Foundation
 
-
-/*
- 1. Lv1
-    - 1에서 9까지의 서로 다른 임의의 수 3개를 정하고 맞추는 게임입니다
-     - 정답은 랜덤으로 만듭니다.(1에서 9까지의 서로 다른 임의의 수 3자리)
-
- 2. Lv2
-    - 정답을 맞추기 위해 3자리수를 입력하고 힌트를 받습니다
-    - 힌트는 야구용어인 **볼**과 **스트라이크**입니다.
-    - 같은 자리에 같은 숫자가 있는 경우 **스트라이크**, 다른 자리에 숫자가 있는 경우 **볼**입니다
-    - ex) 정답 : 456 인 경우
-         - 435를 입력한 경우 → 1스트라이크 1볼
-         - 357를 입력한 경우 → 1스트라이크
-         - 678를 입력한 경우 → 1볼
-         - 123를 입력한 경우 → Nothing
-    - 만약 올바르지 않은 입력값에 대해서는 오류 문구를 보여주세요
-    - 3자리 숫자가 정답과 같은 경우 게임이 종료됩니다
- */
-
 class BaseballGame {
     func start() {
         print("게임을 시작합니다")
-        makeAnswer() // 정답을 만드는 함수
-        print("서로 다른 숫자 3개를 입력해주세요(범위: 1 ~ 9, 예: 356)", terminator: "")
+        let answer = makeAnswer()
+        print("서로 다른 숫자 3개를 입력해주세요(범위: 1 ~ 9, 예: 356): ", terminator: "")
+        while true {
+            let userInput = getUserInput()
+            if userInput == 0 {
+                print("잘못된 입력입니다. 다시 입력해주세요: ",terminator: "")
+            } else if userInput != 0 {
+                let result = checkAnswer(computerChoice: answer, userChoice: userInput)
+                print(result)
+
+                if result == "정답입니다!" {
+                    break
+                } else {
+                    print("다시 입력해주세요: ", terminator: "")
+                }
+            }
+        }
     }
 
     func makeAnswer() -> Int {
@@ -45,9 +41,65 @@ class BaseballGame {
 
         let computerChoice = [randomNumber1, randomNumber2, randomNumber3]
 
-        let strComputerChoice = computerChoice.map(String.init).joined()  // ["5", "6", "7"]
+        let strComputerChoice = computerChoice.map(String.init).joined()
         guard let intComputerChoice = Int(strComputerChoice) else { return 0 }
-        return intComputerChoice // 567
+        return intComputerChoice
+    }
+
+    func getUserInput() -> Int {
+        let userInput = readLine() ?? ""
+        guard let intUserInput = Int(userInput) else { return 0 }
+        return intUserInput
+    }
+
+
+    func checkAnswer(computerChoice: Int, userChoice: Int) -> String {
+        // int형인 숫자를 string으로 변경
+        let computerChoice = String(computerChoice)
+        let userChoice = String(userChoice)
+
+        // string을 개별 String으로 배열에 저장
+        let arrComputerChoice = Array(computerChoice)
+        let arrUserChoice = Array(userChoice)
+
+        var strikeCount = 0
+        var ballCount = 0
+
+        for (index1, value1) in arrComputerChoice.enumerated() {
+            for (index2, value2) in arrUserChoice.enumerated() {
+                if index1 == index2 && value1 == value2 {
+                    strikeCount += 1
+                } else if index1 != index2 && value1 == value2 {
+                    ballCount += 1
+                }
+            }
+        }
+
+        if strikeCount == 0 && ballCount == 0 {
+            return "Nothing"
+        }
+
+        let result = (strikeCount, ballCount)
+
+        switch result {
+        case (3, 0):
+            return "정답입니다!"
+        case (2, 0):
+            return "\(strikeCount)스트라이크"
+        case (1, 0):
+            return "\(strikeCount)스트라이크"
+        case (2, 1):
+            return "\(strikeCount)스트라이크, \(ballCount)볼"
+        case (1, 1):
+            return "\(strikeCount)스트라이크, \(ballCount)볼"
+        case (0, 3):
+            return "\(ballCount)볼"
+        case (0, 2):
+            return "\(ballCount)볼"
+        case (0, 1):
+            return "\(ballCount)볼"
+        default:
+            return "잘못된 입력입니다"
+        }
     }
 }
-
