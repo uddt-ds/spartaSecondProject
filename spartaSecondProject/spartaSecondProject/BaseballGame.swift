@@ -9,7 +9,6 @@ import Foundation
 
 class BaseballGame {
     func start() {
-        print("게임을 시작합니다")
         let answer = makeAnswer()
         print("서로 다른 숫자 3개를 입력해주세요(범위: 1 ~ 9, 예: 356): ", terminator: "")
         while true {
@@ -48,10 +47,19 @@ class BaseballGame {
 
     func getUserInput() -> Int {
         let userInput = readLine() ?? ""
+        let ArrUserInput = Array(userInput)
+
+        // 첫번째 index에 0 입력 시 예외처리 추가
+        if ArrUserInput.first == "0" {
+            return 0
+        }
+        // 중복되는 숫자 예외처리 추가
+        let SetUserInput = Set(ArrUserInput)
+        guard SetUserInput.count == 3 else { return 0 }
+
         guard let intUserInput = Int(userInput) else { return 0 }
         return intUserInput
     }
-
 
     func checkAnswer(computerChoice: Int, userChoice: Int) -> String {
         // int형인 숫자를 string으로 변경
