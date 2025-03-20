@@ -31,12 +31,12 @@ class BaseballGame {
 
     func makeAnswer() -> Int {
         let randomNumber1 = Int.random(in: 1...9)
-        var randomNumber2 = Int.random(in: 1...9)
-        var randomNumber3 = Int.random(in: 1...9)
+        var randomNumber2 = Int.random(in: 0...9)
+        var randomNumber3 = Int.random(in: 0...9)
 
         while randomNumber1 == randomNumber2 || randomNumber1 == randomNumber3 || randomNumber2 == randomNumber3 {
-            randomNumber2 = Int.random(in: 1...9)
-            randomNumber3 = Int.random(in: 1...9)
+            randomNumber2 = Int.random(in: 0...9)
+            randomNumber3 = Int.random(in: 0...9)
         }
 
         let computerChoice = [randomNumber1, randomNumber2, randomNumber3]
