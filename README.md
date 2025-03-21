@@ -12,7 +12,7 @@
 ---
 
 <p align="center">
-  <img src="https://github.com/uddt-ds/spartaSecondProject/blob/main/numberBasballImage.webp" alt="numberBasballImage.webp" width="500">
+  <img src="https://github.com/uddt-ds/spartaSecondProject/blob/main/numberBaseballImage.png" alt="numberBasballImage.png" width="500">
 </p>
 
 ## 📋 프로젝트 개요
