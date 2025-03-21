@@ -8,6 +8,8 @@
 import Foundation
 
 class BaseballGame {
+    var tryCount = 0
+
     func start() {
         let answer = makeAnswer()
         print("서로 다른 숫자 3개를 입력해주세요(범위: 1 ~ 9, 예: 356): ", terminator: "")
@@ -26,6 +28,7 @@ class BaseballGame {
                 }
             }
         }
+
     }
 
     func makeAnswer() -> Int {
@@ -84,6 +87,7 @@ class BaseballGame {
         }
 
         if strikeCount == 0 && ballCount == 0 {
+            tryCount += 1
             return "Nothing"
         }
 
@@ -91,20 +95,28 @@ class BaseballGame {
 
         switch result {
         case (3, 0):
+            tryCount += 1
             return "정답입니다!"
         case (2, 0):
+            tryCount += 1
             return "\(strikeCount)스트라이크"
         case (1, 0):
+            tryCount += 1
             return "\(strikeCount)스트라이크"
         case (2, 1):
+            tryCount += 1
             return "\(strikeCount)스트라이크, \(ballCount)볼"
         case (1, 1):
+            tryCount += 1
             return "\(strikeCount)스트라이크, \(ballCount)볼"
         case (0, 3):
+            tryCount += 1
             return "\(ballCount)볼"
         case (0, 2):
+            tryCount += 1
             return "\(ballCount)볼"
         case (0, 1):
+            tryCount += 1
             return "\(ballCount)볼"
         default:
             return "잘못된 입력입니다"
